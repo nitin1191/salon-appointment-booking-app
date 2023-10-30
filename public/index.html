@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+ <style>
+  .field-icon {
+    float: right;
+    margin-top: -25px;
+    margin-right: 5px;
+    position: relative;
+    z-index: 2;
+  }
+  
+ </style>
+  <script>
+
+    $(document).ready(function () {
+
+      $("#eye").mouseover(function(){
+        $("#eye").addClass("fa-eye").removeClass("fa-eye-slash")
+        $("#passid").prop("type","text")
+            })
+
+            $("#eye").mouseout(function(){
+        $(this).addClass("fa-eye-slash").removeClass("fa-eye")
+        $("#passid").prop("type","password")
+            })
+
+      
+      $("#emailid").blur(function () {
+        const email = $(this).val();
+        //alert(email);
+
+        const obj = {
+          type: 'get',
+          url: '/checkemail',
+          data: {
+            email
+          }
+        }
+$.ajax(obj).done(function(ans){
+          var nit=ans;
+          //alert(nit);
+
+          if(nit=="nitin")
+          $("#spid").html("Ok").css("color","green");
+        else
+        $("#spid").html("Already Taken").css("color","red");
+
+          
+
+
+        }).fail(function (ans) {
+          alert(ans);
+        })
+      });
+
+
+      $("#lgbtn").click(function(){
+        const name=$("#nameid").val();
+        const email = $("#emailid").val();
+        const number=$("#numberid").val()
+        const password=$("#passid").val();
+
+      const obj= {
+        type: 'get',
+          url: '/checklgbtn',
+          data: {
+            name,email,number,password
+          }
+      }
+      $.ajax(obj).done(function(ans){
+        
+alert(ans);
+      }).fail(function(ans){
+        alert(ans);
+      })
+        
+      })
+
+
+      $("#loginbtn").click(function(){
+const email=$("#loginid").val()
+const password=$("#loginpass").val()
+const obj={
+  type:"get",
+  url:"/login",
+  data:{
+    email,password
+  }
+
+}
+$.ajax(obj).done(function(ans){
+  localStorage.setItem("actEmail",email);
+alert(ans)
+if(ans==1)
+{
+  location.href="dashboard.html"
+}
+
+}).fail(function(ans){
+  alert(ans)
+
+})
+      })
+    });
+  </script>
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+
+  <nav class="navbar navbar-expand-lg">
+
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      
+      <form class="form-inline my-2 my-lg-0">
+        <!-- modal 1 -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+          data-bs-whatever="@getbootstrap">sigup</button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">signup</h1>
+                <button type="button" class="btn-clos\e" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <div class="mb-3">
+                      <label for="recipient-name">Name</label>
+                      <input type="text" class="form-control" id="nameid">
+                    </div>
+                    <label for="recipient-emailname" class="col-form-label">email</label>
+                    <span id="spid">*</span>
+                    <input type="email" class="form-control" id="emailid">
+                  </div>
+                  <div class="mb-3">
+                    <label for="recipient-number">Mobile no.</label>
+                    <input type="number" class="form-control" id="numberid">
+                  </div>
+                  <div class="mb-3">
+                    <label for="message-password" class="col-form-label">password</label>
+                    <input type="password" class="form-control" id="passid"><span id="eye" class="fa fa-eye-slash field-icon"></span>
+                  </div>
+                  
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="lgbtn">sign up</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <form class="form-inline my-2 my-lg-0">
+        <!-- modal 1 -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1"
+          data-bs-whatever="@getbootstrap" style="margin-left: 10px;">login</button>
+
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">login</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Email id:</label>
+                    <input type="email" class="form-control" id="loginid">
+                  </div>
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Password:</label>
+                    <input type="password" class="form-control" id="loginpass">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" id="loginbtn">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+  </nav>
+
+</body>
+
+</html>

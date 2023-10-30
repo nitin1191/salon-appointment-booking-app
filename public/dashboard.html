@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+
+      
+
+      doHello();
+
+      function doHello()
+      {
+        const a=localStorage.getItem("actEmail");
+      
+        $("#emailid").val(a);
+        $("#emailid1").val(a).prop("readonly",true);
+      }
+
+      $("#booking").click(function () {
+        const name=$("#nameid").val();
+        const email = $("#emailid").val();
+        const number = $("#numberid").val()
+        const treatment = $("#treatid").val();
+        const date = $("#dateid").val();
+        const time=$("#timeid").val()
+         
+        
+      const obj= {
+        type: 'get',
+          url: '/customerdata',
+          data: {
+            name,email,number,treatment,date,time
+          }
+        }
+        $.ajax(obj).done(function(ans){
+alert(ans+date+" "+time);
+        }).fail(function(ans){
+          alert(ans);
+        })
+      })
+$("#oldpass").blur(function(){
+  const email=$("#emailid1").val();
+  const password=$(this).val();
+  const obj={
+    type: 'get',
+          url: '/checkoldpass',
+          data: {
+            email,password
+          }
+  }
+  $.ajax(obj).done(function(ans){
+//alert(ans)
+if(ans=='')
+$("#spold").html(ans)
+else
+$("#spold").html(ans).css("color","red")
+  }).fail(function(ans){
+alert(ans);
+  })
+})
+
+
+
+$("#changepass").click(function(){
+  const email=$("#emailid1").val();
+  const oldpassword=$("#oldpass").val();
+  const newpassword=$("#nid").val();
+  const confirm=$("#cid").val();
+if(oldpassword!=newpassword)
+{
+  if(newpassword==confirm)
+  {
+    const obj={
+    type: 'get',
+          url: '/checkchangepassword',
+          data: {
+            email,newpassword
+          }
+  }
+  $.ajax(obj).done(function(ans){
+alert(ans)
+  }).fail(function(ans){
+alert(ans);
+  })
+  }
+  else{
+    alert("your new and confirm are not same")
+  }
+}
+else
+{
+  alert("your old and new password is same...")
+}
+
+})
+    })
+
+  </script>
+
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+    crossorigin="anonymous"></script>
+  <nav class="navbar navbar-expand-lg ">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 mt-5">
+          <li class="nav-item display-6">
+            <a class="nav-link text-primary" aria-current="page" href="dashboard.html">Home</a>
+          </li>
+          <li class="nav-item display-6">
+            <a class="nav-link text-primary" href="#services" data-bs-toggle="modal">services</a>
+          </li>
+
+          <li class="nav-item display-6">
+            <a class="nav-link text-primary" href="#contact" data-bs-toggle="modal">contact</a>
+          </li>
+           <li class="nav-item display-6">
+  
+          </li>
+        </ul>
+
+      </div>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalpass" data-bs-whatever="@mdo">change password</button>
+    </div>
+  </nav>
+  <div class="main">
+
+    <div class="body-section">
+      <h1>salon with Beautiful hair with beautiful care.</h1>
+
+      <span>
+        <button type="button" class="btn btn-primary"data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">book</button>
+      </span>
+
+
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Name</label>
+                <input type="text" class="form-control" id="nameid">
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Email</label>
+                <input type="email" class="form-control" id="emailid">
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">mobile no.</label>
+                <input type="number" class="form-control" id="numberid">
+              </div>
+
+              <div class="col-md-4" style="float: left;">
+                <label for="inputState" class="form-label">services</label>
+                <select id="treatid" class="form-select">
+                  <option selected>haircut</option>
+                  <option>beardcut</option>
+                  <option>both haircut and beardcut</option>
+                  <option>massage</option>
+                </select>
+              </div>
+
+              <div class="col-md-4" style="float: left; margin-left: 10px;">
+                <label for="inputZip" class="form-label">Date</label>
+                <input type="date" class="form-control" id="dateid">
+              </div>
+
+              <div class="col-md-3" style="float: left; margin-left: 10px;">
+                <label for="inputZip" class="form-label">Time</label>
+                <input type="time" class="form-control" id="timeid">
+              </div>
+
+
+
+            </form>
+          </div>
+          <div class="modal-footer">
+            <p style="color: red;"> * available at 9:00am to 6:00pm</p>
+            <button type="button" class="btn btn-primary" id="booking">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container d-flex flex-row-reverse">
+      <img src="image/logo.png" alt="Bootstrap" width="150" height="100" id="imghover" style="filter: brightness(0%);">
+    </div>
+   
+  </div>
+  <!-- modal change password -->
+<div class="modal fade" id="exampleModalpass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">change password</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">emailid:</label>
+            <input type="email" class="form-control" id="emailid1">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">old password</label> <span id="spold">*</span>
+            <input type="password" class="form-control" id="oldpass">
+            
+            
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">new password</label>
+            <input type="password" class="form-control" id="nid">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">confirm password</label>
+            <input type="password" class="form-control" id="cid">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-primary" id="changepass">change password</button>
+      </div>
+    </div>
+  </div>
+</div>
+ <!--serices modal  -->
+ 
+<div class="modal fade" id="services" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- contact modal -->
+<div class="modal fade" id="contact" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">contact</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
